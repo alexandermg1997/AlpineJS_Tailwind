@@ -10,12 +10,19 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
     <title>Awesome</title>
     <link
       rel="shortcut icon"
       href="https://img.icons8.com/doodle/96/bart-simpson.png"
     />
     <style type="text/tailwindcss">
+      [x-cloak] {
+        display: none !important;
+      }
       :root {
         --primary: rgb(80, 40, 244);
         --primary-hover: rgb(69, 29, 200);
@@ -105,20 +112,38 @@
         <ul class="flex items-center navitems">
           <li><a href="">Home</a></li>
           <li><a href="">Create Post</a></li>
-          <li>
-            <a href="">
+          <li x-data="{ dropdownOpen: false }" class="relative">
+            <a
+              @click="dropdownOpen = !dropdownOpen"
+              @click.away="dropdownOpen = false"
+              class="cursor-pointer select-none"
+            >
               <img
                 class="h-8 rounded-full object-cover bg-teal-200"
                 src="https://img.icons8.com/doodle/96/bart-simpson.png"
                 alt="bart-simpson"
               />
               Bart
-              <img
+              <img x-bind:class="{ 'rotate-180 duration-300': dropdownOpen }"
                 class="w-4 mt-1"
                 src="https://img.icons8.com/small/64/777777/expand-arrow.png"
                 alt="expand-arrow"
               />
             </a>
+            <div
+              x-show="dropdownOpen"
+              x-cloak
+              x-transition:enter="duration-300 ease-out"
+              x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
+              x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+              class="absolute right-0 bg-white rounded-lg p-2 shadow text-black w-40 p-2 z-20"
+            >
+              <ul class="hoverlist [&>li>a]:justify-end">
+                <li><a href="">My Account</a></li>
+                <li><a href="">Settings</a></li>
+                <li><a href="">Log Out</a></li>
+              </ul>
+            </div>
           </li>
         </ul>
       </nav>
